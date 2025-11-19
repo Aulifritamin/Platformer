@@ -35,8 +35,5 @@ public class Inventory : MonoBehaviour
         {
             _inventory[itemName] = 1;
         }
-
-        Debug.Log($"Добавлен {itemName}. Теперь их: {_inventory[itemName]}");
-        item.DestroyItem();
     }
 }

@@ -12,6 +12,7 @@ public class ItemCollector : MonoBehaviour
         if (item.TryGetComponent<CollectibleItem>(out CollectibleItem pickupItem))
         {
             ItemCollected?.Invoke(pickupItem);
+            pickupItem.DestroyItem();
         }
     }
 }
