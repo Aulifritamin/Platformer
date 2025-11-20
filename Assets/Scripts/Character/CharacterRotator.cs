@@ -2,15 +2,25 @@ using UnityEngine;
 
 public class CharacterRotator : MonoBehaviour
 {
+    private float _facingRotationY = 180f;
+    private bool _isFacingRight = true;
+
     public void Rotate(float direction)
     {
-        if (direction > 0)
+        if (direction > 0 && _isFacingRight == false)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            Turn();
         }
-        else if (direction < 0)
+        else if (direction < 0 && _isFacingRight == true)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            Turn();
         }
+    }
+
+    private void Turn()
+    {
+        _isFacingRight = !_isFacingRight;
+
+        transform.Rotate(0f, _facingRotationY, 0f);
     }
 }

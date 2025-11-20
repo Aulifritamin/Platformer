@@ -8,11 +8,10 @@ public class InputListener : MonoBehaviour
     private const string _horizontal = "Horizontal";
     private const string _vertical = "Vertical";
     private const string _jump = "Jump";
-    // private const string _attack = "Fire1";
 
     public Vector2 MoveInput { get; private set; }
     public bool JumpInput { get; private set; }
-    // public bool AttackInput { get; private set; }
+    
     public event Action JumpPressed;
 
     private void Update()

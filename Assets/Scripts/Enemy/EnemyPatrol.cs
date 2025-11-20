@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[System.Serializable]
 public class EnemyPatrol : MonoBehaviour
 {
     [SerializeField] private Transform _groundCheck;
