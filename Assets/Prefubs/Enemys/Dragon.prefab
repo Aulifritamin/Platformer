@@ -46,6 +46,8 @@ GameObject:
   - component: {fileID: 1265237298}
   - component: {fileID: 1265237300}
   - component: {fileID: 6192689601849843015}
+  - component: {fileID: 1260045609879817098}
+  - component: {fileID: 2048429359}
   m_Layer: 0
   m_Name: Dragon
   m_TagString: Untagged
@@ -154,6 +156,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _patrol: {fileID: 6192689601849843015}
+  _enemyMovement: {fileID: 2048429359}
+  _rotator: {fileID: 1260045609879817098}
 --- !u!61 &1265237298
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -217,6 +221,30 @@ MonoBehaviour:
   _groundLayer:
     serializedVersion: 2
     m_Bits: 8
-  _moveSpeed: 2
   _groundCheckDistance: 0.1
   _patrolDistance: 5
+--- !u!114 &1260045609879817098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5253271089135594517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d684845c898cbc84d863b12cd0248fbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2048429359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5253271089135594517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e742313f3340da4c88ea04b8af9f872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moveSpeed: 2

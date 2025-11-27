@@ -9,10 +9,10 @@ public class ItemCollector : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D item)
     {
-        if (item.TryGetComponent<CollectibleItem>(out CollectibleItem pickupItem))
+        if (item.TryGetComponent(out CollectibleItem pickupItem))
         {
             ItemCollected?.Invoke(pickupItem);
-            pickupItem.DestroyItem();
+            pickupItem.Collect();
         }
     }
 }

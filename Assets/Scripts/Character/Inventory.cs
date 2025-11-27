@@ -25,7 +25,7 @@ public class Inventory : MonoBehaviour
 
     private void AddItem(CollectibleItem item)
     {
-        string itemName = item.itemName;
+        string itemName = item.Item_Name;
 
         if (_inventory.ContainsKey(itemName))
         {

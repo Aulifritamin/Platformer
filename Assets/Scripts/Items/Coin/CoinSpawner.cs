@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CoinSpawner : MonoBehaviour
 {
-    [SerializeField] private Coin _coinPrefab;
+    [SerializeField] private CollectibleItem _coinPrefab;
     [SerializeField] private Transform _spawnPointsContainer;
     private Transform[] _spawnPoints;
     
@@ -18,8 +18,15 @@ public class CoinSpawner : MonoBehaviour
     {
         foreach (var point in _spawnPoints)
         {
-            Instantiate(_coinPrefab, point.position, Quaternion.identity);
+            CollectibleItem newCoin = Instantiate(_coinPrefab, point.position, Quaternion.identity);
+            newCoin.Collected += DestroyItem;
         }
+    }
+
+    private void DestroyItem(CollectibleItem coin)
+    {
+        Destroy(coin.gameObject);
+        coin.Collected -= DestroyItem;
     }
 
     [ContextMenu("Refresh Child Array")]

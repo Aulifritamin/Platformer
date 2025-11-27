@@ -14,6 +14,7 @@ public class GroundDetector : MonoBehaviour
     {
         StartCoroutine(GroundCheckRoutine());
     }
+    
     private IEnumerator GroundCheckRoutine()
     {
         while (enabled)

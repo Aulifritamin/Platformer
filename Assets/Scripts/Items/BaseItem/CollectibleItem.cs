@@ -1,13 +1,16 @@
 using UnityEngine;
+using System;
 
 public class CollectibleItem : MonoBehaviour
 {
     [SerializeField] private string _itemName;
 
-    public string itemName => _itemName.ToLower();
+    public event Action<CollectibleItem> Collected;
 
-    public void DestroyItem()
+    public string Item_Name => _itemName.ToLower();
+
+    public void Collect()
     {
-        Destroy(gameObject);
+        Collected?.Invoke(this);
     }
 }

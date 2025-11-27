@@ -4,5 +4,4 @@ using UnityEngine;
 
 public class CoinSpawnPoint : MonoBehaviour
 {
-    public Transform Transform => transform;
 }

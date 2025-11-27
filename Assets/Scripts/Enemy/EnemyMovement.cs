@@ -1,24 +1,20 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] private float _moveSpeed = 5f;
-    [SerializeField] private float _jumpForce = 10f;
-    
+    [SerializeField] private float _moveSpeed = 2f;
+
     private Rigidbody2D _rigidbody;
 
     public void Initialize(Rigidbody2D rigidbody)
     {
         _rigidbody = rigidbody;
     }
-    
+
     public void Move(float direction)
     {
         _rigidbody.velocity = new Vector2(direction * _moveSpeed, _rigidbody.velocity.y);
-    }
-
-    public void Jump()
-    {
-        _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, _jumpForce);
     }
 }
