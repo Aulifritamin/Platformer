@@ -1,15 +1,16 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+[RequireComponent(typeof(Rigidbody2D))]
+public class CharacterMover : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpForce = 10f;
     
     private Rigidbody2D _rigidbody;
 
-    public void Initialize(Rigidbody2D rigidbody)
+    private void Awake()
     {
-        _rigidbody = rigidbody;
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
     
     public void Move(float direction)

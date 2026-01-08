@@ -2,31 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinSpawner : MonoBehaviour
+public class ItemSpawner : MonoBehaviour
 {
-    [SerializeField] private CollectibleItem _coinPrefab;
+    [SerializeField] private CollectibleItem _itemPrefab;
     [SerializeField] private Transform _spawnPointsContainer;
     private Transform[] _spawnPoints;
-    
+
     private void Start()
     {
         RefreshChildArray();
-        InitiateCoins();
+        InitiateItems();
     }
 
-    private void InitiateCoins()
+    private void InitiateItems()
     {
         foreach (var point in _spawnPoints)
         {
-            CollectibleItem newCoin = Instantiate(_coinPrefab, point.position, Quaternion.identity);
-            newCoin.Collected += DestroyItem;
+            CollectibleItem newItem = Instantiate(_itemPrefab, point.position, Quaternion.identity);
+            newItem.Collected += DestroyItem;
         }
     }
 
-    private void DestroyItem(CollectibleItem coin)
+    private void DestroyItem(CollectibleItem item)
     {
-        Destroy(coin.gameObject);
-        coin.Collected -= DestroyItem;
+        Destroy(item.gameObject);
+        item.Collected -= DestroyItem;
     }
 
     [ContextMenu("Refresh Child Array")]

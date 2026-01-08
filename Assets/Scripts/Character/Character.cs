@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(GroundDetector))]
 [RequireComponent(typeof(CharacterAnimator))]
 [RequireComponent(typeof(CharacterRotator))]
-[RequireComponent(typeof(PlayerMovement))]
+[RequireComponent(typeof(CharacterMover))]
 public class Character : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;
@@ -13,7 +13,10 @@ public class Character : MonoBehaviour
     private GroundDetector _groundDetector;
     private CharacterAnimator _characterAnimator;
     private CharacterRotator _characterRotator;
-    private PlayerMovement _playerMovement;
+    private CharacterMover _playerMovement;
+    private WeaponBase _currentWeapon;
+    private float _nextAttackTime = 0f;
+    private float _attackCooldown = 1f;
 
     private void Awake()
     {
@@ -22,19 +25,25 @@ public class Character : MonoBehaviour
         _groundDetector = GetComponent<GroundDetector>();
         _characterAnimator = GetComponent<CharacterAnimator>();
         _characterRotator = GetComponent<CharacterRotator>();
-        _playerMovement = GetComponent<PlayerMovement>();
+        _playerMovement = GetComponent<CharacterMover>();
+        _currentWeapon = GetComponentInChildren<WeaponBase>();
+    }
 
-        _playerMovement.Initialize(_rigidbody);
+    public void AE_AttackHit()
+    {
+        _currentWeapon.AttackHit();
     }
 
     private void OnEnable()
     {
         _inputListener.JumpPressed += JumpPressed;
+        _inputListener.AttackPressed += AttackPressed;
     }
 
     private void OnDisable()
     {
         _inputListener.JumpPressed -= JumpPressed;
+        _inputListener.AttackPressed -= AttackPressed;
     }
 
     private void Update()
@@ -69,5 +78,14 @@ public class Character : MonoBehaviour
         }
         
         _playerMovement.Jump();
+    }
+
+    private void AttackPressed()
+    {
+        if (Time.time >= _nextAttackTime)
+        {
+            _characterAnimator.SetAttackTrigger();
+            _nextAttackTime = Time.time + _attackCooldown;
+        }
     }
 }

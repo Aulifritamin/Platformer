@@ -6,9 +6,9 @@
   - Tags:
     - Untagged, Respawn, Finish, EditorOnly, MainCamera, Player, GameController
   - Layers:
-    - Default, TransparentFX, Ignore Raycast, Ground, Water, UI, Player
+    - Default, TransparentFX, Ignore Raycast, Ground, Water, UI, Player, Enemy
 - Active game object:
-  - Name: Dragon
-  - Tag: Untagged
-  - Layer: Default
+  - Name: Char
+  - Tag: Player
+  - Layer: Player
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

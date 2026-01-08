@@ -1,38 +1,86 @@
+using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D), typeof(Rigidbody2D))]
+[RequireComponent(typeof(EnemyPatrol))]
+[RequireComponent(typeof(EnemyFollow))]
+[RequireComponent(typeof(EnemyVision))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private EnemyPatrol _patrol;
-    [SerializeField] private EnemyMovement _enemyMovement;
-    [SerializeField] private CharacterRotator _rotator;
+    [SerializeField] private EnemyFollow _follow;
+    [SerializeField] private EnemyVision _enemyVision;
+    [SerializeField] private Health _health;
 
-    private Rigidbody2D _rigidbody;
+    private Transform _target;
+    private WaitForSeconds _checkVisionWait = new WaitForSeconds(0.2f);
+    private WaitForSeconds _targetLostWait = new WaitForSeconds(4f);
+    private Coroutine _targetLostCoroutine;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _enemyMovement = GetComponent<EnemyMovement>();
         _patrol = GetComponent<EnemyPatrol>();
-        _rotator = GetComponent<CharacterRotator>();
-    }
+        _follow = GetComponent<EnemyFollow>();
+        _enemyVision = GetComponent<EnemyVision>();
+        _health = GetComponent<Health>();
 
-    private void Start()
-    {
-        _patrol.Initialize(transform, _rotator);
-        _enemyMovement.Initialize(_rigidbody);
+        StartCoroutine(VisionRoutine());
     }
 
     private void FixedUpdate()
     {
-        _patrol.Patrol(_enemyMovement);
+        MovementStrategy();
     }
 
-    private void OnDrawGizmos()
+    private void Start()
     {
-        if (_patrol != null)
+        _patrol.Initialize(transform);
+    }
+
+    private void MovementStrategy()
+    {
+        if (_target != null)
         {
-            _patrol.DrawGizmos();
+            _follow.FollowTarget(_target);
         }
+        else
+        {
+            _patrol.Patrol();
+        }
+    }
+
+    private IEnumerator VisionRoutine()
+    {
+        while (enabled)
+        {
+            Transform visibleTarget = _enemyVision.CheckVision();
+
+            if (visibleTarget != null)
+            {
+                _target = visibleTarget;
+
+                if (_targetLostCoroutine != null)
+                {
+                    StopCoroutine(_targetLostCoroutine);
+                    _targetLostCoroutine = null;
+                }
+            }
+            else
+            {
+                if (_target != null && _targetLostCoroutine == null)
+                {
+                    _targetLostCoroutine = StartCoroutine(TargetLostRoutine());
+                }
+            }
+
+            yield return _checkVisionWait;
+        }
+    }
+
+    private IEnumerator TargetLostRoutine()
+    {
+        yield return _targetLostWait;
+        _target = null;
+        _targetLostCoroutine = null;
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 public class CollectibleItem : MonoBehaviour
 {
-    [SerializeField] private string _itemName;
+    [SerializeField] protected string _itemName;
 
     public event Action<CollectibleItem> Collected;
 

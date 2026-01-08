@@ -1,70 +1,59 @@
 using UnityEngine;
 
+[RequireComponent(typeof(GroundDetector))]
+[RequireComponent(typeof(CharacterMover))]
+[RequireComponent(typeof(CharacterRotator))]
 public class EnemyPatrol : MonoBehaviour
 {
-    [SerializeField] private Transform _groundCheck;
-    [SerializeField] private LayerMask _groundLayer;
-    [SerializeField] private float _groundCheckDistance = 0.1f;
+    [SerializeField] private GroundDetector _groundCheck;
+    [SerializeField] private CharacterMover _mover;
     [SerializeField] private float _patrolDistance = 5f;
 
     private Vector2 _startPosition;
     private CharacterRotator _rotator;
-    private Transform _transform;
+    private Transform _enemyTransform;
     private int _direction = 1;
+    private bool _isTurning;
 
-    public void Initialize(Transform transform, CharacterRotator rotator)
+    private void Awake()
     {
-        _transform = transform;
-        _rotator = rotator;
-        _startPosition = _transform.position;
+        _mover = GetComponent<CharacterMover>();
+        _groundCheck = GetComponent<GroundDetector>();
+        _rotator = GetComponent<CharacterRotator>();
     }
 
-    public void Patrol(EnemyMovement enemyMovement)
+    public void Initialize(Transform transform)
     {
-        enemyMovement.Move(_direction);
+        _enemyTransform = transform;
+        _startPosition = _enemyTransform.position;
+    }
 
-        float currentX = _transform.position.x;
+    public void Patrol()
+    {
+        if (_groundCheck.IsGrounded)
+        {
+            _isTurning = false;
+        }
+        
+        _mover.Move(_direction);
+        _rotator.Rotate(_direction);
+
+        float currentX = _enemyTransform.position.x;
         float rightBoundary = _startPosition.x + _patrolDistance;
         float leftBoundary = _startPosition.x - _patrolDistance;
-
-
-        bool isGroundAhead = !IsGroundAhead();
+        
         bool reachedRightEdge = _direction > 0 && currentX >= rightBoundary;
         bool reachedLeftEdge = _direction < 0 && currentX <= leftBoundary;
 
-        if (isGroundAhead || reachedRightEdge || reachedLeftEdge)
+        if (_isTurning == false && (_groundCheck.IsGrounded == false || reachedRightEdge || reachedLeftEdge))
         {
             FlipDirection();
         }
     }
 
-    private bool IsGroundAhead()
-    {
-        return Physics2D.Raycast(
-            _groundCheck.position,
-            Vector2.down,
-            _groundCheckDistance,
-            _groundLayer
-        );
-    }
-
     private void FlipDirection()
     {
         _direction *= -1;
-
-        _rotator.Rotate(_direction);
-    }
-
-    public void DrawGizmos()
-    {
-        if (_groundCheck == null)
-        {
-            return;
-        }
-
-        Gizmos.color = Color.red;
-        Vector3 start = _groundCheck.position;
-        Vector3 end = _groundCheck.position + Vector3.down * _groundCheckDistance;
-        Gizmos.DrawLine(start, end);
+        _isTurning = true;
     }
 }

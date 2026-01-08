@@ -29,6 +29,11 @@ public class CharacterAnimator : MonoBehaviour
         _animator.SetBool(Fall, isFalling);
     }
 
+    public void SetAttackTrigger()
+    {
+        _animator.SetTrigger("Attack");
+    }
+
     public void UpdateJumpFallAnimation(bool isGrounded, float verticalVelocity)
     {
         if (isGrounded)
