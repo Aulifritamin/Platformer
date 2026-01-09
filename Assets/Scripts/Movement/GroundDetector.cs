@@ -12,10 +12,10 @@ public class GroundDetector : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(GroundCheckRoutine());
+        StartCoroutine(CheckGroundRoutine());
     }
     
-    private IEnumerator GroundCheckRoutine()
+    private IEnumerator CheckGroundRoutine()
     {
         while (enabled)
         {

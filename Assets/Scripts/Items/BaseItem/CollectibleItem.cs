@@ -3,11 +3,11 @@ using System;
 
 public class CollectibleItem : MonoBehaviour
 {
-    [SerializeField] protected string _itemName;
+    [SerializeField] protected string ItemName;
 
     public event Action<CollectibleItem> Collected;
 
-    public string Item_Name => _itemName.ToLower();
+    public string ItemNameLower => ItemName.ToLower();
 
     public void Collect()
     {

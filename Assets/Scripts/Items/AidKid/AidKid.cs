@@ -10,6 +10,6 @@ public class AidKid : CollectibleItem
 
     private void Awake()
     {
-        _itemName = _aidKitName;
+        ItemName = _aidKitName;
     }
 }

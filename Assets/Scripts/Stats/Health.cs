@@ -1,43 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
+using System;
 using UnityEngine;
 
-public class Health : MonoBehaviour, IDemagable
+public class Health : MonoBehaviour
 {
+    [SerializeField] private float _maxHealth = 100f;
     [SerializeField] private float _currentHealth;
-    private Inventory _inventory;
-    private float _maxHealth = 100f;
+
     private float _minHealth = 0f;
 
-    private void Awake()
-    {
-        _inventory = GetComponent<Inventory>();
-    }
+    public event Action Die;
+
     private void Start()
     {
         _currentHealth = _maxHealth;
-    }
-
-    private void OnEnable()
-    {
-        if (_inventory != null)
-        {
-            _inventory.AidKidCollected += HealOnAidKidCollected;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (_inventory != null)
-        {
-            _inventory.AidKidCollected -= HealOnAidKidCollected;
-        }
-    }
-
-    private void Die()
-    {
-        Destroy(gameObject);
     }
 
     public void TakeDamage(float damage)
@@ -46,13 +21,8 @@ public class Health : MonoBehaviour, IDemagable
 
         if (_currentHealth <= _minHealth)
         {
-            Die();
+            Die?.Invoke();
         }
-    }
-
-    private void HealOnAidKidCollected(AidKid aidKid)
-    {
-        Heal(aidKid.HealAmount);
     }
 
     public void Heal(float healAmount)

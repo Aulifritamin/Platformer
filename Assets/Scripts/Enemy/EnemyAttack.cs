@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyAttack : MonoBehaviour
 {
-    private EnemyWeapon _enemyWeapon;
+    private Weapon _enemyWeapon;
     private string _playerTag = "Player";
     private Animator _animator;
     private Coroutine _attackCoroutine;
@@ -13,7 +13,7 @@ public class EnemyAttack : MonoBehaviour
 
     private void Awake()
     {
-        _enemyWeapon = GetComponentInChildren<EnemyWeapon>();
+        _enemyWeapon = GetComponentInChildren<Weapon>();
         _animator = GetComponent<Animator>();
     }
 

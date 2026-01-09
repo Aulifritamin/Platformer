@@ -5,7 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(EnemyFollow))]
 [RequireComponent(typeof(EnemyVision))]
 [RequireComponent(typeof(Rigidbody2D))]
-public class Enemy : MonoBehaviour
+[RequireComponent(typeof(Health))]
+public class Enemy : MonoBehaviour, IDemagable
 {
     [SerializeField] private EnemyPatrol _patrol;
     [SerializeField] private EnemyFollow _follow;
@@ -27,6 +28,16 @@ public class Enemy : MonoBehaviour
         StartCoroutine(VisionRoutine());
     }
 
+    private void OnEnable()
+    {
+        _health.Die += Die;
+    }
+
+    private void OnDisable()
+    {
+        _health.Die -= Die;
+    }
+
     private void FixedUpdate()
     {
         MovementStrategy();
@@ -35,6 +46,11 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         _patrol.Initialize(transform);
+    }
+    
+    public void TakeDamage(float damage)
+    {
+        _health.TakeDamage(damage);
     }
 
     private void MovementStrategy()
@@ -82,5 +98,10 @@ public class Enemy : MonoBehaviour
         yield return _targetLostWait;
         _target = null;
         _targetLostCoroutine = null;
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }

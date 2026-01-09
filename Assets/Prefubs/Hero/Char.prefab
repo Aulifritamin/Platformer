@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1057006509}
   - component: {fileID: 1057006508}
   - component: {fileID: 1057006510}
-  - component: {fileID: 2816709377090177012}
+  - component: {fileID: 3373485561451096321}
   m_Layer: 0
   m_Name: weapon
   m_TagString: Untagged
@@ -118,7 +118,7 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &2816709377090177012
+--- !u!114 &3373485561451096321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,10 +127,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1057006507}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a913e3866c4d61429bb3827d75753e6, type: 3}
+  m_Script: {fileID: 11500000, guid: acf59e0c89f71b04db0982e50ee3f0ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _hitPoint: {fileID: 1478410520}
+  _attackDamage: 30
+  _attackRadius: 0.4
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &1478410519
 GameObject:
   m_ObjectHideFlags: 0
@@ -501,4 +506,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4694eb6917634564199e767fbe7b55d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentHealth: 0
+  _maxHealth: 100

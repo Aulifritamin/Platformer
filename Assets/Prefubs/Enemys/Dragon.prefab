@@ -41,8 +41,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1443903289}
   - component: {fileID: 1443903288}
-  - component: {fileID: 2941716990533604351}
   - component: {fileID: 6683791532867641871}
+  - component: {fileID: 7552950665594901164}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -118,19 +118,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2941716990533604351
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1443903287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6050172f866de7449a08f31dd4de751, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hitPoint: {fileID: 694039358}
 --- !u!68 &6683791532867641871
 EdgeCollider2D:
   m_ObjectHideFlags: 0
@@ -162,6 +149,24 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
+--- !u!114 &7552950665594901164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443903287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acf59e0c89f71b04db0982e50ee3f0ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hitPoint: {fileID: 694039358}
+  _attackDamage: 10
+  _attackRadius: 0.4
+  _targetMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1512648460
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,4 +537,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4694eb6917634564199e767fbe7b55d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currentHealth: 0
+  _maxHealth: 100

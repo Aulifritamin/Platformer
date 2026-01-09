@@ -6,7 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterAnimator))]
 [RequireComponent(typeof(CharacterRotator))]
 [RequireComponent(typeof(CharacterMover))]
-public class Character : MonoBehaviour
+[RequireComponent(typeof(Health))]
+public class Character : MonoBehaviour, IDemagable
 {
     private Rigidbody2D _rigidbody;
     private InputListener _inputListener;
@@ -14,7 +15,10 @@ public class Character : MonoBehaviour
     private CharacterAnimator _characterAnimator;
     private CharacterRotator _characterRotator;
     private CharacterMover _playerMovement;
-    private WeaponBase _currentWeapon;
+    private Weapon _currentWeapon;
+    private Health _health;
+    private Inventory _inventory;
+    
     private float _nextAttackTime = 0f;
     private float _attackCooldown = 1f;
 
@@ -26,7 +30,9 @@ public class Character : MonoBehaviour
         _characterAnimator = GetComponent<CharacterAnimator>();
         _characterRotator = GetComponent<CharacterRotator>();
         _playerMovement = GetComponent<CharacterMover>();
-        _currentWeapon = GetComponentInChildren<WeaponBase>();
+        _health = GetComponent<Health>();
+        _inventory = GetComponent<Inventory>();
+        _currentWeapon = GetComponentInChildren<Weapon>();
     }
 
     public void AE_AttackHit()
@@ -34,17 +40,26 @@ public class Character : MonoBehaviour
         _currentWeapon.AttackHit();
     }
 
+    public void TakeDamage(float damage)
+    {
+        _health.TakeDamage(damage);
+    }
+
     private void OnEnable()
     {
         _inputListener.JumpPressed += JumpPressed;
         _inputListener.AttackPressed += AttackPressed;
+        _inventory.AidKidCollected += AidKidCollected;
+        _health.Die += Die;
     }
 
     private void OnDisable()
     {
         _inputListener.JumpPressed -= JumpPressed;
         _inputListener.AttackPressed -= AttackPressed;
-    }
+        _health.Die -= Die;
+        _inventory.AidKidCollected -= AidKidCollected;
+    }    
 
     private void Update()
     {
@@ -87,5 +102,15 @@ public class Character : MonoBehaviour
             _characterAnimator.SetAttackTrigger();
             _nextAttackTime = Time.time + _attackCooldown;
         }
+    }
+
+    private void AidKidCollected(AidKid aidKid)
+    {
+        _health.Heal(aidKid.HealAmount);
+    }
+    
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }

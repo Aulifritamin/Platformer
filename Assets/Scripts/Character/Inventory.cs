@@ -7,6 +7,7 @@ public class Inventory : MonoBehaviour
 {
     [SerializeField] private ItemCollector _itemCollector;
     private Dictionary<string, int> _inventory = new Dictionary<string, int>();
+    
     public event Action<AidKid> AidKidCollected;
 
     private void Awake()
@@ -32,7 +33,7 @@ public class Inventory : MonoBehaviour
             return;
         }
 
-        string itemName = item.Item_Name;
+        string itemName = item.ItemNameLower;
 
         if (_inventory.ContainsKey(itemName))
         {
