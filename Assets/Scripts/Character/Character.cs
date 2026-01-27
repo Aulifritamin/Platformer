@@ -50,14 +50,14 @@ public class Character : MonoBehaviour, IDemagable
         _inputListener.JumpPressed += JumpPressed;
         _inputListener.AttackPressed += AttackPressed;
         _inventory.AidKidCollected += AidKidCollected;
-        _health.Die += Die;
+        _health.Died += Die;
     }
 
     private void OnDisable()
     {
         _inputListener.JumpPressed -= JumpPressed;
         _inputListener.AttackPressed -= AttackPressed;
-        _health.Die -= Die;
+        _health.Died -= Die;
         _inventory.AidKidCollected -= AidKidCollected;
     }    
 

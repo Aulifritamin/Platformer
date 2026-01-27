@@ -30,12 +30,12 @@ public class Enemy : MonoBehaviour, IDemagable
 
     private void OnEnable()
     {
-        _health.Die += Die;
+        _health.Died += Die;
     }
 
     private void OnDisable()
     {
-        _health.Die -= Die;
+        _health.Died -= Die;
     }
 
     private void FixedUpdate()
