@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SmoothHealthBar : HealthBarView
+public class SmoothHealthBar : InstantHealthBar
 {
     [SerializeField] private float _lerpDuration = 0.5f;
 

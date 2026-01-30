@@ -2,23 +2,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Slider))]
-public abstract class HealthBarView : MonoBehaviour
+public abstract class HealthView : MonoBehaviour
 {
     [SerializeField] protected Health Health;
-    
-    protected Slider Slider;
 
-    private void Awake()
-    {
-        Slider = GetComponent<Slider>();
-    }
-
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
         Health.HealthChanged += HealthChanged;
     }
 
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         Health.HealthChanged -= HealthChanged;
     }

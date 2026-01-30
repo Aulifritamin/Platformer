@@ -5,8 +5,9 @@ public class Health : MonoBehaviour
 {
     [SerializeField] private float _maxHealth = 100f;
     
-    private float _currentHealth;
     private const float MinHealth = 0f;
+    
+    private float _currentHealth;
 
     public event Action Died;
     public event Action<float, float> HealthChanged;
