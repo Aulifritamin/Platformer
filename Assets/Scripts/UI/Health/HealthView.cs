@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Slider))]
 public abstract class HealthView : MonoBehaviour
 {
     [SerializeField] protected Health Health;

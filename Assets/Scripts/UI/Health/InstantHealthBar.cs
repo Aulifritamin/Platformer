@@ -1,5 +1,7 @@
+using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Slider))]
 public class InstantHealthBar : HealthView
 {
     protected Slider Slider;
