@@ -9,6 +9,7 @@ public class CharacterAnimator : MonoBehaviour
     private static readonly int _jump = Animator.StringToHash("Jump");
     private static readonly int _fall = Animator.StringToHash("Fall");
     private static readonly int _attack = Animator.StringToHash("Attack");
+    private static readonly int _vampirism = Animator.StringToHash("Vampirism");
 
     private void Awake()
     {
@@ -33,6 +34,11 @@ public class CharacterAnimator : MonoBehaviour
     public void SetAttackTrigger()
     {
         _animator.SetTrigger(_attack);
+    }
+
+    public void SetVampirismActive(bool isActive)
+    {
+        _animator.SetBool(_vampirism, isActive);
     }
 
     public void UpdateJumpFallAnimation(bool isGrounded, float verticalVelocity)

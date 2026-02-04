@@ -9,14 +9,13 @@ public class InputListener : MonoBehaviour
     private const string _vertical = "Vertical";
     private const string _jump = "Jump";
     private const string _attack = "Fire1";
+    private const KeyCode _spellKey = KeyCode.E;
 
     public Vector2 MoveInput { get; private set; }
-    public bool JumpInput { get; private set; }
-    public bool AttackInput { get; private set; }
 
     public event Action JumpPressed;
     public event Action AttackPressed;
-
+    public event Action SpellPressed;
 
     private void Update()
     {
@@ -30,6 +29,11 @@ public class InputListener : MonoBehaviour
         if (Input.GetButtonDown(_attack))
         {
             AttackPressed?.Invoke();
+        }
+
+        if (Input.GetKeyDown(_spellKey))
+        {
+            SpellPressed?.Invoke();
         }
     }
 }
