@@ -57,8 +57,8 @@ public class Character : MonoBehaviour, IDemagable
     {
         _inputListener.JumpPressed -= JumpPressed;
         _inputListener.AttackPressed -= AttackPressed;
-        _health.Died -= Die;
         _inventory.AidKidCollected -= AidKidCollected;
+        _health.Died -= Die;
     }    
 
     private void Update()
@@ -106,7 +106,7 @@ public class Character : MonoBehaviour, IDemagable
 
     private void AidKidCollected(AidKid aidKid)
     {
-        _health.Heal(aidKid.HealAmount);
+        _health.Restore(aidKid.HealAmount);
     }
     
     private void Die()

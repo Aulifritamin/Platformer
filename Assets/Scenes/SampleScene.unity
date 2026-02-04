@@ -844,6 +844,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1079988381035244805, guid: 00c8b7527f5b4c240aafa1163b3b195b, type: 3}
+      propertyPath: m_Sources.Array.data[0].sourceTransform
+      value: 
+      objectReference: {fileID: 519420032}
     - target: {fileID: 4697680607826132327, guid: 00c8b7527f5b4c240aafa1163b3b195b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -895,10 +899,6 @@ PrefabInstance:
     - target: {fileID: 5253271089135594517, guid: 00c8b7527f5b4c240aafa1163b3b195b, type: 3}
       propertyPath: m_Name
       value: Dragon
-      objectReference: {fileID: 0}
-    - target: {fileID: 9077987576903136597, guid: 00c8b7527f5b4c240aafa1163b3b195b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 00c8b7527f5b4c240aafa1163b3b195b, type: 3}

@@ -5,9 +5,10 @@ public class CharacterAnimator : MonoBehaviour
 {
     private Animator _animator;
 
-    private static readonly int Speed = Animator.StringToHash("Speed");
-    private static readonly int Jump = Animator.StringToHash("Jump");
-    private static readonly int Fall = Animator.StringToHash("Fall");
+    private static readonly int _speed = Animator.StringToHash("Speed");
+    private static readonly int _jump = Animator.StringToHash("Jump");
+    private static readonly int _fall = Animator.StringToHash("Fall");
+    private static readonly int _attack = Animator.StringToHash("Attack");
 
     private void Awake()
     {
@@ -16,22 +17,22 @@ public class CharacterAnimator : MonoBehaviour
 
     public void SetSpeed(float speed)
     {
-        _animator.SetFloat(Speed, speed);
+        _animator.SetFloat(_speed, speed);
     }
 
     public void SetJumping(bool isJumping)
     {
-        _animator.SetBool(Jump, isJumping);
+        _animator.SetBool(_jump, isJumping);
     }
 
     public void SetFalling(bool isFalling)
     {
-        _animator.SetBool(Fall, isFalling);
+        _animator.SetBool(_fall, isFalling);
     }
 
     public void SetAttackTrigger()
     {
-        _animator.SetTrigger("Attack");
+        _animator.SetTrigger(_attack);
     }
 
     public void UpdateJumpFallAnimation(bool isGrounded, float verticalVelocity)

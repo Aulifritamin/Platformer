@@ -11,7 +11,7 @@ public class HealthText : HealthView
         _text = GetComponent<TextMeshProUGUI>();
     }
 
-    protected override void HealthChanged(float currentHealth, float maxHealth)
+    protected override void OnUpdateView(float currentHealth, float maxHealth)
     {
         _text.text = $"{currentHealth} / {maxHealth}";
     }

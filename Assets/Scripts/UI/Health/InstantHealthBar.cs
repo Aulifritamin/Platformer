@@ -11,7 +11,7 @@ public class InstantHealthBar : HealthView
         Slider = GetComponent<Slider>();
     }
     
-    protected override void HealthChanged(float currentHealth, float maxHealth)
+    protected override void OnUpdateView(float currentHealth, float maxHealth)
     {
         Slider.value = currentHealth / maxHealth;
     }

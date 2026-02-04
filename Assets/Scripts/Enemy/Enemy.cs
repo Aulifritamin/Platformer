@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour, IDemagable
 
     private void FixedUpdate()
     {
-        MovementStrategy();
+        Move();
     }
 
     private void Start()
@@ -53,7 +53,7 @@ public class Enemy : MonoBehaviour, IDemagable
         _health.TakeDamage(damage);
     }
 
-    private void MovementStrategy()
+    private void Move()
     {
         if (_target != null)
         {

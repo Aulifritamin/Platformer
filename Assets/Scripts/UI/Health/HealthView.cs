@@ -7,13 +7,13 @@ public abstract class HealthView : MonoBehaviour
 
     protected virtual void OnEnable()
     {
-        Health.HealthChanged += HealthChanged;
+        Health.Changed += OnUpdateView;
     }
 
     protected virtual void OnDisable()
     {
-        Health.HealthChanged -= HealthChanged;
+        Health.Changed -= OnUpdateView;
     }
 
-    protected abstract void HealthChanged(float currentHealth, float maxHealth);
+    protected abstract void OnUpdateView(float currentHealth, float maxHealth);
 }

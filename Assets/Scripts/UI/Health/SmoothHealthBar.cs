@@ -7,7 +7,7 @@ public class SmoothHealthBar : InstantHealthBar
 
     private Coroutine _healthUpdateCoroutine;
 
-    protected override void HealthChanged(float currentHealth, float maxHealth)
+    protected override void OnUpdateView(float currentHealth, float maxHealth)
     {
         if (_healthUpdateCoroutine != null)
         {

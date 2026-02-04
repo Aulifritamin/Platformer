@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] private float _maxHealth = 100f;
-    
     private const float MinHealth = 0f;
+    
+    [SerializeField] private float _maxHealth = 100f;    
     
     private float _currentHealth;
 
     public event Action Died;
-    public event Action<float, float> HealthChanged;
+    public event Action<float, float> Changed;
 
     public float CurrentHealth => _currentHealth;
     public float MaxHealth => _maxHealth;
@@ -18,7 +18,7 @@ public class Health : MonoBehaviour
     private void Start()
     {
         _currentHealth = _maxHealth;
-        HealthChanged?.Invoke(_currentHealth, _maxHealth);
+        Changed?.Invoke(_currentHealth, _maxHealth);
     }
 
     public void TakeDamage(float damage)
@@ -29,7 +29,7 @@ public class Health : MonoBehaviour
         }
 
         _currentHealth = Mathf.Max(_currentHealth - damage, MinHealth);
-        HealthChanged?.Invoke(_currentHealth, _maxHealth);
+        Changed?.Invoke(_currentHealth, _maxHealth);
 
         if (_currentHealth == MinHealth)
         {
@@ -37,7 +37,7 @@ public class Health : MonoBehaviour
         }
     }
 
-    public void Heal(float healAmount)
+    public void Restore(float healAmount)
     {
         if (healAmount < 0)
         {
@@ -45,6 +45,6 @@ public class Health : MonoBehaviour
         }
         
         _currentHealth = Mathf.Min(_currentHealth + healAmount, _maxHealth);
-        HealthChanged?.Invoke(_currentHealth, _maxHealth);
+        Changed?.Invoke(_currentHealth, _maxHealth);
     }
 }

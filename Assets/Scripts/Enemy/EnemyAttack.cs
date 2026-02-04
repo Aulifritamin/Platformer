@@ -6,15 +6,14 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     private Weapon _enemyWeapon;
-    private string _playerTag = "Player";
-    private Animator _animator;
+    private EnemyAnimator _animator;
     private Coroutine _attackCoroutine;
     private WaitForSeconds _attackWait = new WaitForSeconds(1.5f);
 
     private void Awake()
     {
         _enemyWeapon = GetComponentInChildren<Weapon>();
-        _animator = GetComponent<Animator>();
+        _animator = GetComponent<EnemyAnimator>();
     }
 
     public void Attack()
@@ -24,18 +23,18 @@ public class EnemyAttack : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag(_playerTag))
+        if (collision.TryGetComponent(out Character _))
         {
             if (_attackCoroutine == null)
             {
-                _attackCoroutine = StartCoroutine(AttackRoutine());
+                _attackCoroutine = StartCoroutine(Attacking());
             }
         }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.CompareTag(_playerTag))
+        if (collision.TryGetComponent(out Character _))
         {
             if (_attackCoroutine != null)
             {
@@ -45,11 +44,11 @@ public class EnemyAttack : MonoBehaviour
         }
     }
 
-    private IEnumerator AttackRoutine()
+    private IEnumerator Attacking()
     {
         while (enabled)
         {
-            _animator.SetTrigger("Attack");
+            _animator.SetAttackTrigger();
             Attack();
             yield return _attackWait;
         }

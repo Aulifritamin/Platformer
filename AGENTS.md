@@ -8,7 +8,7 @@
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI, Player, Enemy
 - Active game object:
-  - Name: Canvas
+  - Name: Dragon
   - Tag: Untagged
-  - Layer: UI
+  - Layer: Enemy
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

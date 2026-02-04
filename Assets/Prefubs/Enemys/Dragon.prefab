@@ -210,8 +210,9 @@ GameObject:
   - component: {fileID: 1678181451}
   - component: {fileID: 1678181450}
   - component: {fileID: 1678181449}
+  - component: {fileID: 1079988381035244805}
   m_Layer: 7
-  m_Name: Canvas
+  m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -224,7 +225,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1678181447}
-  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: -0.73877066, y: 0.73877066, z: 0.73877066}
   m_ConstrainProportionsScale: 0
@@ -299,6 +300,25 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1818360609 &1079988381035244805
+RotationConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1678181447}
+  m_Enabled: 1
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_IsContraintActive: 1
+  m_IsLocked: 1
+  m_Sources:
+  - sourceTransform: {fileID: 0}
+    weight: 1
 --- !u!1 &5253271089135594517
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,6 +343,7 @@ GameObject:
   - component: {fileID: 1897630370425992174}
   - component: {fileID: 3082100634492964912}
   - component: {fileID: 3039309810279530447}
+  - component: {fileID: 4119223212938464576}
   m_Layer: 7
   m_Name: Dragon
   m_TagString: Untagged
@@ -640,6 +661,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 100
+--- !u!114 &4119223212938464576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5253271089135594517}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5d8f0bb101f7a04fb080c8542bd0628, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &142181327
 PrefabInstance:
   m_ObjectHideFlags: 0
