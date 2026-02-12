@@ -1,82 +1,129 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(InputListener)]
+[RequireComponent(typeof(InputListener))]
 public class Vampirism : MonoBehaviour
 {
     [SerializeField] private float _radius = 3f;
-    [SerializeField] private float _healAmount = 10f;
+    [SerializeField] private float _healAmount = 4f;
     [SerializeField] private float _damageAmount = 8f;
-    [SerializeField] private float _duration = 6f;
+    [SerializeField] private float _duration = 6f; 
     [SerializeField] private float _cooldown = 4f;
     [SerializeField] private LayerMask _enemyLayer;
 
     [SerializeField] private SpriteRenderer _vampirimsArea;
+    [SerializeField] private Health _health;
 
     private bool _isActive = false;
-    private WaitForSeconds _durationWait = new WaitForSeconds(_duration);
+    private WaitForSeconds _attackInterval = new WaitForSeconds(1f);
+    private WaitForSeconds _oneSecondWait = new WaitForSeconds(1f);
+    private Coroutine _attackingCoroutine;
+    private Coroutine _cooldownCoroutine;
 
     private InputListener _inputListener;
+
+    public event Action<float, float> TimeChanged;
 
     private void Awake()
     {
         _inputListener = GetComponent<InputListener>();
-        _enemyLayer = LayerMask.GetMask("Enemy");
+        _health = GetComponent<Health>();
+        if (_enemyLayer == 0) _enemyLayer = LayerMask.GetMask("Enemy");        
         _vampirimsArea.enabled = false;
+        TimeChanged.Invoke(_duration, _duration);
+    }
+
+    private void OnEnable() => _inputListener.SpellPressed += VapirismActivated;
+    private void OnDisable() => _inputListener.SpellPressed -= VapirismActivated;
+
+    private void VapirismActivated()
+    {
+        if (_isActive) return;
+
+        if (_attackingCoroutine != null) StopCoroutine(_attackingCoroutine);
+        _attackingCoroutine = StartCoroutine(AttackingRoutine());
     }
 
     private IEnumerator AttackingRoutine()
     {
-        if (_isActive)
-        {
-            yield break;
-        }
-
         _isActive = true;
         _vampirimsArea.enabled = true;
-        float timer = 0f;
 
-        while(timer < _duration)
+        for (float i = 0; i < _duration; i++)
         {
-            timer += Time.deltaTime;
-
-            yield return null;
+            Attack();
+            TimeChanged?.Invoke(i, _duration);
+            yield return _attackInterval;
         }
 
         _vampirimsArea.enabled = false;
-        StartCoroutine(CooldownRoutine());
+        TimeChanged?.Invoke(_duration, _duration);
+
+        _cooldownCoroutine = StartCoroutine(CooldownRoutine());
     }
 
     private IEnumerator CooldownRoutine()
     {
-        float timer = 0f;
-        while (timer < _cooldown)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
+        for (int i = 0; i < (int)_cooldown; i++)
+    {
+        TimeChanged?.Invoke(i, _cooldown);
+        yield return _oneSecondWait; 
+    }
 
-        _isActive = false;
+    TimeChanged?.Invoke(_cooldown, _cooldown);
+    _isActive = false;
+    TimeChanged?.Invoke(_duration, _duration);
     }
 
     private void Attack()
     {
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, _radius, _enemyLayer);
+        HashSet<IDemagable> targets = new HashSet<IDemagable>();
 
-        HashSet<IDemagable> damagedTargets = new HashSet<IDemagable>();
-
-        foreach (Collider2D collider in hitColliders)
+        foreach (var col in hitColliders)
         {
-            if(collider.TryGetComponent(out IDemagable target))
+            if (col.TryGetComponent(out IDemagable target))
+                targets.Add(target);
+        }
+
+        IDemagable closest = CheckDistance(targets);
+
+        if (closest != null)
+        {
+            Damage(closest);
+            RestoreHealth();
+        }
+    }
+
+    private IDemagable CheckDistance(HashSet<IDemagable> targets)
+    {
+        float minDistance = float.MaxValue;
+        IDemagable closestTarget = null;
+
+        foreach (var target in targets)
+        {
+            if (target is Component targetComponent)
             {
-                damagedTargets.Add(target);
+                float sqrDist = (targetComponent.transform.position - transform.position).sqrMagnitude;
+                if (sqrDist < minDistance)
+                {
+                    minDistance = sqrDist;
+                    closestTarget = target;
+                }
             }
         }
+        return closestTarget;
+    }
 
-        foreach (IDemagable target in damagedTargets)
-        {
-            target.TakeDamage(_damageAmount);
-        }
+    private void RestoreHealth()
+    {
+        _health.Restore(_healAmount);
+    } 
+        
+    private void Damage(IDemagable target)
+    {
+        target.TakeDamage(_damageAmount);
     }
 }
