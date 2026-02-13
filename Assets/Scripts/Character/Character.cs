@@ -18,6 +18,7 @@ public class Character : MonoBehaviour, IDemagable
     private Weapon _currentWeapon;
     private Health _health;
     private Inventory _inventory;
+    private Vampirism _vampirism;
     
     private float _nextAttackTime = 0f;
     private float _attackCooldown = 1f;
@@ -33,6 +34,7 @@ public class Character : MonoBehaviour, IDemagable
         _health = GetComponent<Health>();
         _inventory = GetComponent<Inventory>();
         _currentWeapon = GetComponentInChildren<Weapon>();
+        _vampirism = GetComponent<Vampirism>();
     }
 
     public void AE_AttackHit()
@@ -40,9 +42,9 @@ public class Character : MonoBehaviour, IDemagable
         _currentWeapon.AttackHit();
     }
 
-    public void TakeDamage(float damage)
+    public float TakeDamage(float damage)
     {
-        _health.TakeDamage(damage);
+        return _health.TakeDamage(damage);
     }
 
     private void OnEnable()
@@ -50,6 +52,7 @@ public class Character : MonoBehaviour, IDemagable
         _inputListener.JumpPressed += JumpPressed;
         _inputListener.AttackPressed += AttackPressed;
         _inventory.AidKidCollected += AidKidCollected;
+        _inputListener.SpellPressed += VapirismActivated;
         _health.Died += Die;
     }
 
@@ -58,6 +61,7 @@ public class Character : MonoBehaviour, IDemagable
         _inputListener.JumpPressed -= JumpPressed;
         _inputListener.AttackPressed -= AttackPressed;
         _inventory.AidKidCollected -= AidKidCollected;
+        _inputListener.SpellPressed -= VapirismActivated;
         _health.Died -= Die;
     }    
 
@@ -107,6 +111,11 @@ public class Character : MonoBehaviour, IDemagable
     private void AidKidCollected(AidKid aidKid)
     {
         _health.Restore(aidKid.HealAmount);
+    }
+
+    private void VapirismActivated()
+    {
+        _vampirism.StartVampirismEffect();
     }
     
     private void Die()

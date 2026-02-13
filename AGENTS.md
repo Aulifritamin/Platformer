@@ -8,7 +8,7 @@
   - Layers:
     - Default, TransparentFX, Ignore Raycast, Ground, Water, UI, Player, Enemy
 - Active game object:
-  - Name: Char
-  - Tag: Player
+  - Name: VampirismArea
+  - Tag: Untagged
   - Layer: Player
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->

@@ -21,21 +21,31 @@ public class Health : MonoBehaviour
         Changed?.Invoke(_currentHealth, _maxHealth);
     }
 
-    public void TakeDamage(float damage)
+    public float TakeDamage(float damage)
     {
-        if (damage < 0)
+        if (damage <= 0)
         {
-            return;
+            return 0f;
         }
+
+        float previousHealth = _currentHealth;
 
         _currentHealth = Mathf.Max(_currentHealth - damage, MinHealth);
-        Changed?.Invoke(_currentHealth, _maxHealth);
+        
+        float actualDamage = previousHealth - _currentHealth;
 
-        if (_currentHealth == MinHealth)
+        if (actualDamage > 0)
         {
-            Died?.Invoke();
-        }
+            Changed?.Invoke(_currentHealth, _maxHealth);
+
+            if (_currentHealth <= MinHealth)
+            {
+                Died?.Invoke();
+            }
     }
+
+    return actualDamage;
+}
 
     public void Restore(float healAmount)
     {

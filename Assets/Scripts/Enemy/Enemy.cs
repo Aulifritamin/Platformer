@@ -48,9 +48,9 @@ public class Enemy : MonoBehaviour, IDemagable
         _patrol.Initialize(transform);
     }
     
-    public void TakeDamage(float damage)
+    public float TakeDamage(float damage)
     {
-        _health.TakeDamage(damage);
+        return _health.TakeDamage(damage);
     }
 
     private void Move()

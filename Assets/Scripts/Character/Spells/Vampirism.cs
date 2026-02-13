@@ -13,7 +13,8 @@ public class Vampirism : MonoBehaviour
     [SerializeField] private float _cooldown = 4f;
     [SerializeField] private LayerMask _enemyLayer;
 
-    [SerializeField] private SpriteRenderer _vampirimsArea;
+    [SerializeField] private VampirismEffect _vampirimsArea;
+
     [SerializeField] private Health _health;
 
     private bool _isActive = false;
@@ -21,24 +22,18 @@ public class Vampirism : MonoBehaviour
     private WaitForSeconds _oneSecondWait = new WaitForSeconds(1f);
     private Coroutine _attackingCoroutine;
     private Coroutine _cooldownCoroutine;
-
-    private InputListener _inputListener;
+    private string _maskName = "Enemy";
 
     public event Action<float, float> TimeChanged;
 
     private void Awake()
     {
-        _inputListener = GetComponent<InputListener>();
         _health = GetComponent<Health>();
-        if (_enemyLayer == 0) _enemyLayer = LayerMask.GetMask("Enemy");        
-        _vampirimsArea.enabled = false;
+        if (_enemyLayer == 0) _enemyLayer = LayerMask.GetMask(_maskName);        
         TimeChanged.Invoke(_duration, _duration);
     }
 
-    private void OnEnable() => _inputListener.SpellPressed += VapirismActivated;
-    private void OnDisable() => _inputListener.SpellPressed -= VapirismActivated;
-
-    private void VapirismActivated()
+    public void StartVampirismEffect()
     {
         if (_isActive) return;
 
@@ -49,7 +44,7 @@ public class Vampirism : MonoBehaviour
     private IEnumerator AttackingRoutine()
     {
         _isActive = true;
-        _vampirimsArea.enabled = true;
+        _vampirimsArea.ActivateEffect();
 
         for (float i = 0; i < _duration; i++)
         {
@@ -58,7 +53,7 @@ public class Vampirism : MonoBehaviour
             yield return _attackInterval;
         }
 
-        _vampirimsArea.enabled = false;
+        _vampirimsArea.DeactivateEffect();
         TimeChanged?.Invoke(_duration, _duration);
 
         _cooldownCoroutine = StartCoroutine(CooldownRoutine());
@@ -82,9 +77,9 @@ public class Vampirism : MonoBehaviour
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, _radius, _enemyLayer);
         HashSet<IDemagable> targets = new HashSet<IDemagable>();
 
-        foreach (var col in hitColliders)
+        foreach (var collider in hitColliders)
         {
-            if (col.TryGetComponent(out IDemagable target))
+            if (collider.TryGetComponent(out IDemagable target))
                 targets.Add(target);
         }
 
@@ -92,8 +87,10 @@ public class Vampirism : MonoBehaviour
 
         if (closest != null)
         {
-            Damage(closest);
-            RestoreHealth();
+            float damage = Damage(closest);
+            float heal = Mathf.Min(damage, _healAmount);
+            
+            RestoreHealth(heal);
         }
     }
 
@@ -117,13 +114,13 @@ public class Vampirism : MonoBehaviour
         return closestTarget;
     }
 
-    private void RestoreHealth()
+    private void RestoreHealth(float healAmmount)
     {
-        _health.Restore(_healAmount);
+        _health.Restore(healAmmount);
     } 
         
-    private void Damage(IDemagable target)
+    private float Damage(IDemagable target)
     {
-        target.TakeDamage(_damageAmount);
+        return target.TakeDamage(_damageAmount);
     }
 }
